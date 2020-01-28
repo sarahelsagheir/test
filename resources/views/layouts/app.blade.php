@@ -15,11 +15,16 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/096ac12684.js" crossorigin="anonymous"></script>
+
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/096ac12684.js" crossorigin="anonymous"></script>
+    
+    @yield('style')
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
 </head>
 <body>
     <div id="app">
@@ -35,17 +40,38 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
+                            <li class="nav-item">
+                                <a href="{{route('product.index')}}" class="nav-link">Store</a>
+                            </li>
+                            <li class="nav-item">
+
+
+
+<a href="{{route('borrow.index')}}" class="nav-link">Borrow</a>
+
+
+
+</li>
+
+                    </ul>
+
 
                     </ul>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
-                    <a href="#" class="nav-link">
+                        <li class="nav-item">
+                        <a href="{{ route('cart.show')}}" class="nav-link">
+
+
                         <span class="fas fa-shopping-cart">
-                            0
+                        My Cart ( {{ session()->has('cart') ? session()->get('cart')->totalQty : '0' }})
+
                         </span>
                     </a>
+                    </li>
+
                         @guest
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
@@ -62,16 +88,19 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('home') }}">Dashboard</a>
                                     <a class="dropdown-item" href="{{route('profile')}}">Profile Settings</a>
                                     <a class="dropdown-item" href="{{route('changePassword')}}">Change password</a>
                                     <a class="dropdown-item" href="{{route('profileAvatar')}}" >Upload Profile Picture</a></a>
-
+                                    <a href="{{ route('order.index') }}" class="dropdown-item">Orders <i class="fas fa-grip-horizontal ml-2"></i></a>
+                                    <a class="dropdown-item" href="{{route('books')}}">my book</a>
+                                    <a class="dropdown-item" href="{{route('addBook')}}">Share book</a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
 
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
+                                        <i class="fas fa-sign-out-alt ml-2"></i>
+
                                     </a>
                                     
 
@@ -90,5 +119,9 @@
             @yield('content')
         </main>
     </div>
+    @include('sweetalert::alert')
+
+    @yield('script')
+
 </body>
 </html>

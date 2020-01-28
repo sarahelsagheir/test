@@ -43,6 +43,14 @@ return [
         'redirect' => 'http://localhost:8000/auth/google/callback',
 
     ],
+    'stripe' => [
+        
+        'model' => App\User::class,
+
+        'secret' => 'sk_test_l3aH1wRbcweGiMge6vDejT7C00Fhjm0Z7E',
+        'version' => '2019-02-19',
+
+    ],
 
     
 

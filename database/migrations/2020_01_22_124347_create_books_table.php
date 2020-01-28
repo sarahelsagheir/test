@@ -17,6 +17,7 @@ class CreateBooksTable extends Migration
             $table->bigIncrements('id');
             $table->string('title');
             $table->string('cover_img');
+            $table->double('price','8.2')->nullable();
             $table->string('author');
             $table->string('category');
             $table->bigInteger('user_id')->unsigned();

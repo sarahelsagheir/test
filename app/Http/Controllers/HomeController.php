@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Book;
 use App\Product;
+use RealRashid\SweetAlert\Facades\Alert;
+use App\Http\Controllers\toast;
+
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -14,7 +18,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(['auth', 'verified']);
+        $this->middleware(['auth', 'verified'])->except('store');
     }
 
     /**
@@ -27,7 +31,12 @@ class HomeController extends Controller
         return view('home');
     }
     public function store(){
-        $latestProducts= Product::latest()->take(3)->get();
+        if ( session('success'))
+        {
+            toast(session('success'), 'success');
+        }
+
+        $latestProducts= Book::latest()->take(3)->get();
         return view('store',[
             'latestProducts'=>$latestProducts
         ]);

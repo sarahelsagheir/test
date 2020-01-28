@@ -45,7 +45,7 @@
                                 <option value="classics">classics</option>
                                 <option value="non-Fiction">non-Fiction</option>
                                 <option value="Historical-Fiction">Historical-Fiction</option>
-                                <option value="Childern">CHildern</option>
+                                <option value="Childern">Childern</option>
                                 <option value="Biography">Biography</option>
                                 <option value="Horror">Horror</option>
                                 <option value="Thriller">Thriller</option>

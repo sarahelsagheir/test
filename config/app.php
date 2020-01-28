@@ -162,7 +162,8 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
-
+        Cartalyst\Stripe\Laravel\StripeServiceProvider::class,
+        RealRashid\SweetAlert\SweetAlertServiceProvider::class,
 
 
 
@@ -232,7 +233,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'Image' => Intervention\Image\Facades\Image::class,
-
+        'Stripe' => Cartalyst\Stripe\Laravel\Facades\Stripe::class,
+        'Alert' => RealRashid\SweetAlert\Facades\Alert::class,
 
 
 

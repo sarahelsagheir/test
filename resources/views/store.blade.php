@@ -8,7 +8,7 @@
             <hr class="my-4">
             <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
             <p class="lead">
-                <a class="btn btn-primary btn-lg" href="{{route('product.index')}}" role="button">buy</a>
+                <a class="btn btn-primary btn-lg" href="{{route('product.index')}}" role="button">All Products </a>
             </p>
         </div>
     </div>
@@ -21,11 +21,10 @@
                     <div class="card-body">
                         <h5 class="card-title">{{$product->title}}</h5>
                         <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="#" class="btn btn-primary">Buy</a>
                     </div>
                 </div>
             </div>
-        @endforeach
+            @endforeach
         </div>
     </div>
 </div>
