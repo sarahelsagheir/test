@@ -14,8 +14,14 @@
             </div>
             @endif
             @foreach( $cart->items as $product)
-
             <div class="card mb-2">
+            <div class="card-body">
+            
+                     <img src="{{$product['image']}}">
+                    
+
+</div>
+
                 <div class="card-body">
                     <h5 class="card-title">
                         {{ $product['title'] }}

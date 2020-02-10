@@ -6,14 +6,18 @@ use App\Product;
 use App\Book;
 use App\Mail\BorrowSucessful;
 use App\Mail\PurchaseSuccessful;
+use App\Notifications\UserNotification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Order;
-use App\User;
+use Illuminate\Support\Facades\DB;
+use App\User as AppUser;
+
 
 use Cartalyst\Stripe\Laravel\Facades\Stripe;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB as FacadesDB;
 
 class ProductController extends Controller
 {
@@ -26,6 +30,7 @@ class ProductController extends Controller
     {
         $products= Book::all();
 
+
         return view('product.index',[
 
             'products'=>$products
@@ -36,55 +41,38 @@ class ProductController extends Controller
     public function borrowIndex()
     {
         $products= book::where('user_id','!=',auth()->user()->id)->get();
+        
 
         return view('borrow.index',[
             'products'=>$products
         ]);
     }
+ public function sharedBook(){
+    $products= book::where('user_id','=',auth()->user()->id)
+    ->where('status','=','0')
+    ->get();
+    return view('borrow.sharedBook',[
 
+        'products'=>$products
+
+    ]);
+
+
+ }
 
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
-    }
+    // public function borrowRequest( $product)
+    // {
+    //     // $owner=DB::table('books')->where('id','=',$product);
+    //     dd($product->user_id);
+    // $product->notify(new BorrowRequest($product)); 
+    // return back();       
+    // }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Book $product)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Book $product)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -190,7 +178,46 @@ public function charge(Request $request) {
     }
 
 }
+public function search( Request $request) {
 
-}
+    $request->validate([
+
+        'q' => 'required'
+    ]);
+    $q = $request->q;
+
+    $filteredBooks = Book::where('title', 'like', '%' . $q . '%')
+                            ->orWhere('price', 'like', '%' . $q . '%')      
+                            ->orWhere('category', 'like', '%' . $q . '%')                            
+                      
+                            ->get();
+
+    if ($filteredBooks->count()) {
+
+        return view('product.index')->with([
+            'products' =>  $filteredBooks
+        ]);
+    } else {
+        return redirect('/products')->with([
+            'status' , "search failed ,, please try again"
+        ]);
+    }
+
+    }
+        // axios search
+
+        public function searchajax($q) {
+            if ($q) {
+                $data = Book::where('title', 'like' , '%'. $q .'%')->get();
+    
+            } else {
+                $data = Book::all();
+            }
+            
+            return response()->json($data);
+        }
+    }
+        
+
 
 

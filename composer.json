@@ -16,7 +16,9 @@
         "laravel/scout": "^7.2",
         "laravel/socialite": "^4.3",
         "laravel/tinker": "^2.0",
-        "realrashid/sweet-alert": "^3.1"
+        "pusher/pusher-php-server": "~4.0",
+        "realrashid/sweet-alert": "^3.1",
+        "willvincent/laravel-rateable": "^2.0"
     },
     "require-dev": {
         "facade/ignition": "^1.4",

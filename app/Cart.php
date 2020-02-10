@@ -27,10 +27,10 @@ class Cart
         
         $item = [
             'id' =>  $product->id,
+            'image' => $product->cover_img,
             'title' => $product->title,
             'price' => $product->price,
             'qty' => 0,
-            'image' => $product->image,
         ];
 
         if( !array_key_exists($product->id, $this->items)) {

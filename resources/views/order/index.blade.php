@@ -16,7 +16,7 @@
                                 <th scope="col">Title</th>
                                 <th scope="col">Price</th>
                                 <th scope="col">Quantity</th>
-                                <th scope="col">status</th>
+                                <th scope="col">Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -49,4 +49,4 @@
     </div>
 </div>
 
-@endsection
+@endsection 

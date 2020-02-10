@@ -12,6 +12,8 @@
 */
 
 use App\Book;
+use App\Http\Controllers\NotificationController;
+use App\Notification;
 
 Route::get('/', function () {
     $latestProducts= Book::latest()->take(3)->get();
@@ -23,21 +25,24 @@ Route::get('/', function () {
         ]);
 
 });
-// oute::get('/email', function () {
-    // Mail::to('1@test.com')->send(new PurchaseSuccessful());
-// 
-    // return new PurchaseSuccessful;
-// 
-// });
-
 
 Auth::routes(['verify' => true]); 
-
+// route::get('/approvalRequest/{id}','NotificationController@index')->name('request.approve');
+route::get('/approveNotification/{id}/{product}','NotificationController@approveNotification')->name('approve.notification');
+route::get('/disapproveNotification/{id}','NotificationController@disapprovedNotification')->name('disapprove.notification');
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/store', 'HomeController@store')->name('store');
 
 // profile 
+//---------------------chat-------------------------------
+Route::get('/chat', 'HomeController@index')->name('home');
+Route::get('/contacts', 'ContactsController@get');
+Route::get('/conversation/{id}', 'ContactsController@getMessagesFor');
+Route::post('/conversation/send', 'ContactsController@send');
+Route::post('/conversation/send/{id}', 'ContactsController@sendMessage')->name('send.message');
+
+//==================================================================
 Route::get('/profile', 'ProfileController@profile')->name('profile');
 Route::post('/profileUpdate', 'ProfileController@profileUpdate')->name('profileUpdate')->middleware('auth');
 Route::get('/changePassword', 'ProfileController@changePasswordForm')->name('changePassword')->middleware('auth');
@@ -48,10 +53,35 @@ Route::post('/profilePicture', 'ProfileController@profilePictureUpload')->name('
 
 // shopping
 Route::get('/products', 'ProductController@index')->name('product.index');
-Route::get('/borrow', 'ProductController@borrowIndex')->name('borrow.index');
-  //search
+Route::get('/borrow', 'ProductController@borrowIndex')->name('borrow.index')->middleware('auth');
+Route::get('/borrow/{product}/{id}', 'NotificationController@borrowRequest')->name('borrow.request')->middleware('auth');
+Route::get('/sharedBook', 'ProductController@sharedBook')->name('sharedBook')->middleware('auth');
+Route::get('/sharedBook/recieved/{product}', 'NotificationController@recievedBook')->name('recievedBook')->middleware('auth');
 
+
+//-------------------------------------------rating---------------------------------------
+Route::get('/showRate/{user}', 'RateController@rateNotification')->name('rateNotification')->middleware('auth');
+Route::get('/rateUser/{user}', 'RateController@rateUser')->name('rateUser')->middleware('auth');
+Route::post('/rateUser/{user}', 'RateController@rateShow')->name('rateShow')->middleware('auth');
+//------------------------------------------------------------------------------------------------------------
+// Route::get('/borrow/{user}', 'RateController@borrow')->name('borrow')->middleware('auth');
+
+
+Route::get('/sharedBook/{product}', 'NotificationController@didnotRecievedNotification')->name('didnotRecievedNotification')->middleware('auth');
+
+  //search
+  Route::get('/live_search', 'LiveSearch@index');
+  Route::get('/live_search/action', 'LiveSearch@action')->name('live_search.action');
+  
   Route::post('/products', 'ProductController@search')->name('product.search');
+  // search via ajax- axios
+Route::view('/livesearch', 'livesearch');
+Route::get('/searchAjax/{q}', 'ProductController@searchajax');
+Route::get('user/{id}', 'RateController@show')->name('user.show');
+
+Route::get('/markAsRead',function(){
+    auth()->user()->unreadNotifications->markAsRead();
+});
 
 Route::get('/addToCart/{product}', 'ProductController@addToCart')->name('cart.add');
 Route::get('/shopping-cart', 'ProductController@showCart')->name('cart.show');

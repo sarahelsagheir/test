@@ -2,23 +2,29 @@
 
 namespace App\Notifications;
 
+use App\Book;
+use App\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class StatusUpdate extends Notification
+class BorrowRequest extends Notification
 {
     use Queueable;
-
+    public $id;
+    public $product;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(User $id, Book $product)
     {
-        //
+        $this->owner_id = $id->id;
+        $this->product = $product->title;
+        $this->product_id=$product->id;
     }
 
     /**
@@ -29,29 +35,25 @@ class StatusUpdate extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['database'];
     }
-
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
-    public function toMail($notifiable)
+    public function toDatabase($notifiable)
     {
-        return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
-    }
+        return [
+            'title' => $this->product,
+            'product_id' => $this->product_id,
+            'user_name' => auth::user()->name,
+            'user_id' => auth::user()->id,
 
+        ];
+    }
     /**
      * Get the array representation of the notification.
      *
      * @param  mixed  $notifiable
      * @return array
      */
+
     public function toArray($notifiable)
     {
         return [
