@@ -21,7 +21,7 @@
                         </thead>
                         <tbody>
                             @foreach($cart->items as $item)
-                            <tr> @if($item['price'] !=0)
+                            <tr> 
                             <td>{{$item['title'] }}</td>
 
                                 <td>${{$item['price'] }}</td>
@@ -29,14 +29,8 @@
 
 
                                 <td> Paid</td>
-                                @else
-                                <td>{{$item['title'] }}</td>
-
-                                <td>-</td>
-                                <td>-</td>
-                                <td>ordered</td>
                             </tr>
-                            @endif
+                            
                             @endforeach
                         </tbody>
                     </table>

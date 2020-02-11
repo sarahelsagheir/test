@@ -60,27 +60,6 @@ class ProductController extends Controller
 
  }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    // public function borrowRequest( $product)
-    // {
-    //     // $owner=DB::table('books')->where('id','=',$product);
-    //     dd($product->user_id);
-    // $product->notify(new BorrowRequest($product)); 
-    // return back();       
-    // }
-
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Product  $product
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Book $product)
     {
         {

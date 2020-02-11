@@ -14,6 +14,8 @@
 use App\Book;
 use App\Http\Controllers\NotificationController;
 use App\Notification;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 Route::get('/', function () {
     $latestProducts= Book::latest()->take(3)->get();
@@ -50,6 +52,24 @@ Route::post('/changePassword', 'ProfileController@changePassword')->name('change
 Route::get('/profilePicture', 'ProfileController@getProfileAvatar')->name('profileAvatar')->middleware('auth');
 Route::post('/profilePicture', 'ProfileController@profilePictureUpload')->name('profileAvatar')->middleware('auth');
 
+//message count
+// route::get('test/{message}',function($messages){
+//   $messages=DB::table('messages')
+//   ->where('read',1)
+//   ->where('to',Auth::user()->id)
+//   ->get();
+
+  // foreach($messages as $message)
+  // {
+  //  json_encode($message->text);
+  // }
+//   return view('chat.RecievedMessage',[
+
+//     'messages'=>json_encode($messages)
+
+// ]);
+
+// })->name('messageCount');
 
 // shopping
 Route::get('/products', 'ProductController@index')->name('product.index');
@@ -63,11 +83,13 @@ Route::get('/sharedBook/recieved/{product}', 'NotificationController@recievedBoo
 Route::get('/showRate/{user}', 'RateController@rateNotification')->name('rateNotification')->middleware('auth');
 Route::get('/rateUser/{user}', 'RateController@rateUser')->name('rateUser')->middleware('auth');
 Route::post('/rateUser/{user}', 'RateController@rateShow')->name('rateShow')->middleware('auth');
+Route::get('/rateBorrower/{user}', 'RateController@rateBorrower')->name('rateBorrower')->middleware('auth');
+
 //------------------------------------------------------------------------------------------------------------
 // Route::get('/borrow/{user}', 'RateController@borrow')->name('borrow')->middleware('auth');
 
 
-Route::get('/sharedBook/{product}', 'NotificationController@didnotRecievedNotification')->name('didnotRecievedNotification')->middleware('auth');
+// Route::get('/sharedBook/{product}', 'NotificationController@didnotRecievedNotification')->name('didnotRecievedNotification')->middleware('auth');
 
   //search
   Route::get('/live_search', 'LiveSearch@index');
@@ -79,9 +101,6 @@ Route::view('/livesearch', 'livesearch');
 Route::get('/searchAjax/{q}', 'ProductController@searchajax');
 Route::get('user/{id}', 'RateController@show')->name('user.show');
 
-Route::get('/markAsRead',function(){
-    auth()->user()->unreadNotifications->markAsRead();
-});
 
 Route::get('/addToCart/{product}', 'ProductController@addToCart')->name('cart.add');
 Route::get('/shopping-cart', 'ProductController@showCart')->name('cart.show');
@@ -92,6 +111,9 @@ Route::delete('/products/{product}', 'ProductController@destroy')->name('product
 Route::put('/products/{product}', 'ProductController@update')->name('product.update');
  
 
+Route::get('/markAsRead',function(){
+  auth()->user()->unreadNotifications->markAsRead();
+});
 
 
 

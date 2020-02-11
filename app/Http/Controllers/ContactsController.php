@@ -12,7 +12,9 @@ class ContactsController extends Controller
 {
     public function get()
     {
-        $contacts = User::where('id', '!=', auth()->id())->get();
+        $contacts = User::where('id', '!=', auth()->id())
+        
+        ->get();
         $unreadIds = Message::select(\DB::raw('`from` as sender_id, count(`from`) as messages_count'))
             ->where('to', auth()->id())
             ->where('read', false)
@@ -63,7 +65,7 @@ class ContactsController extends Controller
         ]);
         broadcast(new NewMessage($message));
          response()->json($message);
-         return view('home');
+         return back();
     }
 
 }

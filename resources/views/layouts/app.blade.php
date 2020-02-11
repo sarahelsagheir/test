@@ -114,7 +114,27 @@
                                 </form>
                             </div>
                         </li>
-                        <li class="nav-item dropdown" >
+                        <li >
+
+<a   href="{{route('home')}}" role="button">
+
+    <span class="glyphicon glyphicon-globe"></span> Messages <span class="badge">{{DB::table('messages')
+  ->where('read',0)
+  ->where('to',Auth::user()->id)
+  ->count()
+}}</span>
+
+</a>
+<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+
+    <li>
+    @foreach(auth()->user()->unreadNotifications as $notification)
+    @include('notification.'.Str::snake(class_basename($notification->type)))
+   @endforeach
+
+    </li>
+</ul>
+<li class="nav-item dropdown" id="markAsRead" onclick="markNotificationAsRead()">
 
 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
 
@@ -132,6 +152,7 @@
 </li>
 
 
+
                         @endguest
                     </ul>
                 </div>
@@ -147,6 +168,8 @@
     @yield('script')
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/main.js') }}" ></script>
+
     <script src="https://kit.fontawesome.com/096ac12684.js" crossorigin="anonymous"></script>
 
 </body>

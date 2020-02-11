@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Borrower;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,8 +13,8 @@ class RateController extends Controller
     public function rateNotification($id){
         $user = User::find($id);
         return view('rate.showRate',compact('user'));
-     
     }
+
     public function rateUser($id){
         $user = User::find($id);
         if($user->id != Auth::user()->id){
@@ -23,6 +24,15 @@ class RateController extends Controller
             return view('home');
         }
     }
+    public function rateBorrower($id){
+
+        $borrower = Borrower::where('book_id','=',$id)->value('user_id');
+        $user = User::find($borrower);
+        
+        return view('rate.index',compact('user'));
+
+    }
+
 
     public function rateShow(Request $request,$id)
     {
