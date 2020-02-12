@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Book;
+use App\Http\Resources\BookResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -67,7 +69,17 @@ class LiveSearch extends Controller
 
 
 
+    public function search($search = null) {
+      $search_text = $search;
 
+      if ($search_text==NULL) {
+          $data= Book::all();
+      } else {
+          $data=Book::where('name','LIKE', '%'.$search_text.'%')->get();
+      }
+      return view('results')->with('results',$data);
+  }
+  R
 
 
 }

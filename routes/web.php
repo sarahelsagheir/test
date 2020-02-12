@@ -33,7 +33,7 @@ Auth::routes(['verify' => true]);
 route::get('/approveNotification/{id}/{product}','NotificationController@approveNotification')->name('approve.notification');
 route::get('/disapproveNotification/{id}','NotificationController@disapprovedNotification')->name('disapprove.notification');
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index');
 Route::get('/store', 'HomeController@store')->name('store');
 
 // profile 
@@ -117,8 +117,20 @@ Route::get('/markAsRead',function(){
 
 
 
+Route::get("search","HomeController@mySearch");
+
+
+
+
+// Route::get('/searching', 'SearchController@search');
+
+
+
+
 Route::get('/addBook', 'ProfileController@getBookForm')->name('addBook')->middleware('auth');
 Route::post('/addBook', 'ProfileController@addBook')->name('addBook')->middleware('auth');
 Route::get('/books', 'ProfileController@getBooks')->name('books')->middleware('auth');
 Route::delete('/books/{id}', 'ProfileController@deleteBook')->name('deleteBook')->middleware('auth');
   
+
+// Route::get('autocomplete', 'HomeController@autocomplete')->name('autocomplete');

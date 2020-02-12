@@ -1,19 +1,5 @@
 @extends('layouts.app')
 @section('content')
-<div class="container">
-    
-<div class="row">
-
-<div class="col-md-6 offset-md-2">
-    <form action="/products" method="POST">
-        @csrf
-        <input type="text" name="q" id="q" class="form-control">
-        <button type="submit" class="btn btn-primary mt-2"> Search</button>
-    </form>
-</div>
-</div>
-<div class="row">
-
 
 
 <div class="col-md-6 offset-md-2">
@@ -34,6 +20,8 @@
                     <div class="alert alert-success">{{ session()->get('success') }}</div>
        
                     @endif
+                    @include('searchForm')
+
              <div class="row">
             @foreach($products as $product)
             @if(!empty($product->price))

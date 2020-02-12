@@ -41,4 +41,24 @@ class HomeController extends Controller
             'latestProducts'=>$latestProducts
         ]);
     }
+    public function mySearch(Request $request)
+    {
+    	if($request->has('search')){
+    		$products = Book::search($request->get('search'))->get();	
+    	}else{
+    		$products = Book::get();
+    	}
+
+
+    	return view('borrow.index', compact('products'));
+    }
+    // public function autocomplete(Request $request)
+    // {
+    //     $data = Book::select("title")
+    //             ->where("title","LIKE","%{$request->input('query')}%")
+    //             ->get();
+   
+    //     return response()->json($data);
+    // }
+
 }
